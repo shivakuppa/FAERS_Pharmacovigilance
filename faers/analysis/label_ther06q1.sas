@@ -14,6 +14,18 @@ DATE :                   NAME :                      REASON FOR MODIFICATION:
 ****************************************************************************
 */ 
 
+PROC FORMAT;
+	value $DUR
+    "YR"="YEARS"
+    "MON"="MONTHS"
+    "WK"="WEEKS"
+    "DY"="DAYS"
+    "HR"="HOURS"
+	"MIN"="MINUTES"
+	"SEC"="SECONDS"
+	;
+run;
+
 OPTIONS OBS=100;
 
 data Ther1 (DROP=VAR7);
@@ -27,8 +39,15 @@ data Ther1 (DROP=VAR7);
 
 	;
 
+	format DUR_COD $DUR.;
+
 run;
 
-/*PROC PRINT DATA=Demo1 label;
-	label I_F_COD = "Intitial/Followup status code (I/F)";
-run;*/
+ODS PDF FILE="C:\dev\faers\tlg\Ther1Listings.pdf";
+
+PROC PRINT DATA=Ther1 label;
+	title "ADVERSE EVENT REPORTING SYSTEM (AERS)";
+	title2 "Therapy Listings";
+run;
+
+ODS PDF CLOSE;

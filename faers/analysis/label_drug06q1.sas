@@ -14,6 +14,31 @@ DATE :                   NAME :                      REASON FOR MODIFICATION:
 ****************************************************************************
 */ 
 
+PROC FORMAT;
+	value $ROLE
+	"PS"="Primary Suspect Drug"
+	"SS"="Secondary Suspect Drug"
+	"C"="Concomitant"
+	"I"="Interacting"
+	;
+	value $VAL
+	"1"="Validated trade name used"
+	"2"="Verbatim name used"
+	;
+	value $DE
+	"Y"="Positive dechallenge"
+	"N"="Negative dechallenge"
+	"U"="Unknown"
+	"D"="Does not apply"
+	;
+	value $RE
+	"Y"="Positive rechallenge"
+	"N"="Negative rechallenge"
+	"U"="Unknown"
+	"D"="Does not apply"
+	;
+run;
+
 OPTIONS OBS=100;
 
 data Drug1 (DROP=VAR13);
@@ -33,8 +58,15 @@ data Drug1 (DROP=VAR13);
 
 	;
 
+	format ROLE_COD $ROLE. VAL_VBM $VAL. DECHAL $DE. RECHAL $RE.
+
 run;
 
-/*PROC PRINT DATA=Demo1 label;
-	label I_F_COD = "Intitial/Followup status code (I/F)";
-run;*/
+ODS PDF FILE="C:\dev\faers\tlg\Drug1Listings.pdf";
+
+PROC PRINT DATA=Drug1 label;
+	title "ADVERSE EVENT REPORTING SYSTEM (AERS)";
+	title2 "Drug Listings";
+run;
+
+ODS PDF CLOSE;

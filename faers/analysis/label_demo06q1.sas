@@ -14,6 +14,40 @@ DATE :                   NAME :                      REASON FOR MODIFICATION:
 ****************************************************************************
 */ 
 
+PROC FORMAT;
+	value $AGE_COD
+	"DEC"="DECADE"
+    "YR"="YEAR"
+    "MON"="MONTH"
+    "WK"="WEEK"
+    "DY"="DAY"
+    "HR"="HOUR"
+	;
+	value $GNDR
+	"UNK"="Unknown"
+	"M"="Male"
+	"F"="Female"
+	"NS"="Not Specified"
+	;
+	value $REPT
+	"EXP"="Expdited"
+	"PER"="Periodic"
+	"DIR"="Direct"
+	;
+	value $WT
+	"KG"="Kilograms"
+	"LB"="Pounds"
+	"GMS"="Grams"
+	;
+	value $OCCP
+	"MD"="Physician"
+	"PH"="Pharmacist"
+	"OT"="Other health professional"
+	"LW"="Lawyer"
+	"CN"="Consumer"
+	;
+run;
+
 OPTIONS OBS=100;
 
 data Demo1 (DROP=VAR24);
@@ -30,7 +64,7 @@ data Demo1 (DROP=VAR24);
 		  MFR_NUM = "Manufacturer's unique number"
 		  MFR_SNDR = "Full name of manufacturer"
 		  AGE = "Age of patient"
-		  AGE_CODE = "Unit abbreviation for patient age"
+		  AGE_COD = "Unit abbreviation for patient age"
 		  GNDR_COD = "Code for patient gender"
 		  E_SUB = "Was report submitted with electronic procedures (Y/N)"
 		  WT = "Weight of patient"
@@ -63,10 +97,21 @@ data Demo1 (DROP=VAR24);
 	ELSE If D_AGE>=50 AND D_AGE<=75 THEN D_AGEGRP="GROUP 3";
 	ELSE If D_AGE>=75 AND D_AGE<=100 THEN D_AGEGRP="GROUP 4";
 
-
+	format AGE_COD $AGE_COD. GNDR_COD $GNDR. REPT_COD $REPT. WT_COD $WT. OCCP_COD $OCCP.;
 
 run;
 
-PROC PRINT DATA=Demo1 label;
-	label I_F_COD = "Intitial/Followup status code (I/F)";
+ODS PDF FILE="C:\dev\faers\tlg\Demo1Listings.pdf"; 
+
+PROC PRINT DATA=Demo1 ;
+	/*label I_F_COD = "Intitial/Followup status code (I/F)";*/
+	var ISR COUNTRY AGE;
+	title "ADVERSE EVENT REPORTING SYSTEM (AERS)";
+	title2 "Demographic Listings";
+run;
+
+ODS PDF CLOSE;
+
+PROC FREQ DATA=Demo1 ;
+	table AGE;
 run;

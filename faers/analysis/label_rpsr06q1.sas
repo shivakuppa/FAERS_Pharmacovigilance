@@ -14,6 +14,20 @@ DATE :                   NAME :                      REASON FOR MODIFICATION:
 ****************************************************************************
 */ 
 
+PROC FORMAT;
+	value $RPSR
+	"FGN"="Foreign"
+	"SDY"="Study"
+	"LIT"="Literature"
+	"CSM"="Consumer"
+	"HP"="Health Professional"
+	"UF"="User Facility"
+	"CR"="Company Representative"
+	"DT"="Distributor"
+	"OTH"="Other"
+	;
+run;
+
 OPTIONS OBS=100;
 
 data Rpsr1 (DROP=VAR3);
@@ -22,8 +36,15 @@ data Rpsr1 (DROP=VAR3);
 		  RPSR_COD = "Code for initial source of report"
 	;
 
+	format RPSR_COD $RPSR.;
+
 run;
 
-/*PROC PRINT DATA=Demo1 label;
-	label I_F_COD = "Intitial/Followup status code (I/F)";
-run;*/
+ODS PDF FILE="C:\dev\faers\tlg\Rpsr1Listings.pdf";
+
+PROC PRINT DATA=Rpsr1 label;
+	title "ADVERSE EVENT REPORTING SYSTEM (AERS)";
+	title2 "Report Source Listings";
+run;
+
+ODS PDF CLOSE;

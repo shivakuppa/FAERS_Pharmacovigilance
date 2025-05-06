@@ -14,6 +14,18 @@ DATE :                   NAME :                      REASON FOR MODIFICATION:
 ****************************************************************************
 */ 
 
+PROC FORMAT;
+	value $OUTC
+	"DE"="Death"
+	"LT"="Life-Threatening"
+	"HO"="Hospitalization - Initial or Prolonged" 
+	"DS"="Disability"
+	"CA"="Congenital Anomaly"
+	"RI"="Required Intervention to Prevent Permanent Impairment/Damage"
+	"OT"="Other"
+	;
+run;
+
 OPTIONS OBS=100;
 
 data Outc1 (DROP=VAR3);
@@ -22,8 +34,15 @@ data Outc1 (DROP=VAR3);
 		  OUTC_COD = "Code for patient outcomes"
 	;
 
+	format OUTC_COD $OUTC.;
+
 run;
 
-/*PROC PRINT DATA=Demo1 label;
-	label I_F_COD = "Intitial/Followup status code (I/F)";
-run;*/
+ODS PDF FILE="C:\dev\faers\tlg\Outc1Listings.pdf";
+
+PROC PRINT DATA=Outc1 label;
+	title "ADVERSE EVENT REPORTING SYSTEM (AERS)";
+	title2 "Outcome Listings";
+run;
+
+ODS PDF CLOSE;
