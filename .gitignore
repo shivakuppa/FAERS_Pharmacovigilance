@@ -2,3 +2,5 @@
 *.log
 **/data/
 **/Sales/
+
+./DS_Store
