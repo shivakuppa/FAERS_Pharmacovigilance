@@ -38,11 +38,20 @@ data Outc1 (DROP=VAR3);
 
 run;
 
+DATA AFINAL06.Outc06q1;
+	set Outc1;
+run;
+
 ODS PDF FILE="C:\dev\faers\tlg\Outc1Listings.pdf";
 
+%let name=Lajeeth Thangavel;
+
 PROC PRINT DATA=Outc1 label;
+	var ISR OUTC_COD;
+
 	title "ADVERSE EVENT REPORTING SYSTEM (AERS)";
 	title2 "Outcome Listings";
+	footnote "&sysdate. &systime. Author=&name.";
 run;
 
 ODS PDF CLOSE;

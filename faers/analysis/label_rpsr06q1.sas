@@ -40,11 +40,20 @@ data Rpsr1 (DROP=VAR3);
 
 run;
 
+DATA AFINAL06.Rpsr06q1;
+	set Rpsr1;
+run;
+
 ODS PDF FILE="C:\dev\faers\tlg\Rpsr1Listings.pdf";
 
+%let name=Lajeeth Thangavel;
+
 PROC PRINT DATA=Rpsr1 label;
+	var ISR RPSR_COD;
+
 	title "ADVERSE EVENT REPORTING SYSTEM (AERS)";
 	title2 "Report Source Listings";
+	footnote "&sysdate. &systime. Author=&name.";
 run;
 
 ODS PDF CLOSE;

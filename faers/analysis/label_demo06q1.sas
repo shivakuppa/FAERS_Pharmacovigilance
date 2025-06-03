@@ -14,7 +14,7 @@ DATE :                   NAME :                      REASON FOR MODIFICATION:
 ****************************************************************************
 */ 
 
-PROC FORMAT;
+/*PROC FORMAT;
 	value $AGE_COD
 	"DEC"="DECADE"
     "YR"="YEAR"
@@ -46,7 +46,7 @@ PROC FORMAT;
 	"LW"="Lawyer"
 	"CN"="Consumer"
 	;
-run;
+run;*/
 
 OPTIONS OBS=100;
 
@@ -101,13 +101,26 @@ data Demo1 (DROP=VAR24);
 
 run;
 
+DATA AFINAL06.Demo06q1;
+	set Demo1;
+run;
+
 ODS PDF FILE="C:\dev\faers\tlg\Demo1Listings.pdf"; 
 
-PROC PRINT DATA=Demo1 ;
+OPTIONS OBS=1000;
+
+%let name=Lajeeth Thangavel;
+
+PROC PRINT DATA=Demo1 NOOBS;
 	/*label I_F_COD = "Intitial/Followup status code (I/F)";*/
-	var ISR COUNTRY AGE;
+	var ISR I_F_COD EVENT_DT MFR_DT REPT_COD AGE AGE_COD D_AGE GNDR_COD D_AGEGRP
+	WT WT_COD D_WT REPT_DT OCCP_COD DEATH_DT COUNTRY;
+
+	where AGE^=. AND GNDR_COD^="";
+
 	title "ADVERSE EVENT REPORTING SYSTEM (AERS)";
 	title2 "Demographic Listings";
+	footnote "&sysdate. &systime. Author=&name.";
 run;
 
 ODS PDF CLOSE;

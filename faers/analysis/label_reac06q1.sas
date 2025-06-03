@@ -24,6 +24,24 @@ data Reac1 (DROP=VAR3);
 
 run;
 
+DATA AFINAL06.Reac06q1;
+	set Reac1;
+run;
+
+ODS PDF FILE="C:\dev\faers\tlg\Reac1Listings.pdf";
+
+%let name=Lajeeth Thangavel;
+
+PROC PRINT DATA=Reac1 label;
+	var ISR PT;
+
+	title "ADVERSE EVENT REPORTING SYSTEM (AERS)";
+	title2 "Reaction Listings";
+	footnote "&sysdate. &systime. Author=&name.";
+run;
+
+ODS PDF CLOSE;
+
 /*PROC PRINT DATA=Demo1 label;
 	label I_F_COD = "Intitial/Followup status code (I/F)";
 run;*/

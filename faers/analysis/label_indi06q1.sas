@@ -25,6 +25,32 @@ data Indi1 (DROP=VAR4);
 
 run;
 
+DATA AFINAL06.Indi06q1;
+	set Indi1;
+run;
+
+DATA Indi2;
+	set AFINAL06.Indi06q1;
+RUN;
+
+ODS PDF FILE="C:\dev\faers\tlg\IndiListings.pdf"; 
+
+%let name=Lajeeth Thangavel;
+
+PROC PRINT DATA= Indi2 NOOBS;
+	/*label I_F_COD = "Intitial/Followup status code (I/F)";*/
+	var ISR DRUG_SEQ INDI_PT;
+
+	title "ADVERSE EVENT REPORTING SYSTEM (AERS)";
+	title2 "Indication Listings";
+	footnote "&sysdate. &systime. Author=&name.";
+run;
+
+ODS PDF CLOSE;
+
+title;
+footnote;
+
 /*PROC PRINT DATA=Demo1 label;
 	label I_F_COD = "Intitial/Followup status code (I/F)";
 run;*/
