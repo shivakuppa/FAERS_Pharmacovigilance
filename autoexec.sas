@@ -31,10 +31,10 @@ LIBNAME AQC06 'C:\dev\faers\qc';
 
 LIBNAME ARAW23 'C:\dev\faers\data\raw\2023';
 LIBNAME AFINAL23 'C:\dev\faers\data\final\2023';
-/*LIBNAME ABACK23 'C:\dev\faers\backup';*/
-/*LIBNAME AXML23 'C:\dev\faers\xml';*/
-/*LIBNAME AXPT23 'C:\dev\faers\xpt';*/
-/*LIBNAME AQC23 'C:\dev\faers\qc';*/
+LIBNAME ABACK23 'C:\dev\faers\backup';
+LIBNAME AXML23 'C:\dev\faers\xml';
+LIBNAME AXPT23 'C:\dev\faers\xpt';
+LIBNAME AQC23 'C:\dev\faers\qc';
 
 PROC PRINTTO;
 RUN;
