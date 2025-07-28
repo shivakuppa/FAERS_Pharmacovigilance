@@ -28,7 +28,7 @@ ods pdf text="^S={font_size=14pt font_weight=bold just=left font_face='Times New
 ods pdf text=" ";  /* Blank line */
 ods pdf text="^S={font_size=12pt just=left font_face='Times New Roman'}The Adverse Event Reporting System (AERS) is a computerized database maintained by the U.S. Food and Drug Administration (FDA) to support post-marketing safety surveillance of pharmaceutical and therapeutic biological products. It plays a critical role in identifying new adverse events and medication errors that may not have been detected during clinical trials.";
 ods pdf text=" ";  /* Blank line */
-ods pdf text="^S={font_size=12pt just=left font_face='Times New Roman'}This report presents comprehensive Graphical summaries, summary tables and patient-level listings derived from the AERS database to support ongoing pharmacovigilance activities. The analyses include adverse event frequencies, drug-event relationships, outcomes, and demographic trends. Data used in this report were sourced from AERS 2006Q1 updates, which are released by the FDA approximately 4 to 6 weeks after the end of each calendar quarter.";
+ods pdf text="^S={font_size=12pt just=left font_face='Times New Roman'}This report presents comprehensive Graphical summaries, summary tables and patient-level listings derived from the AERS database to support ongoing pharmacovigilance activities. The analyses include adverse event frequencies, drug-event relationships, outcomes, and demographic trends. Data used in this report were sourced from AERS 2023Q4 updates, which are released by the FDA approximately 4 to 6 weeks after the end of each calendar quarter.";
 ods pdf text=" ";  /* Blank line */
 ods pdf text="^S={font_size=12pt just=left font_face='Times New Roman'}The AERS database includes the following core datasets:";
 ods pdf text=" ";  /* Blank line */
@@ -67,7 +67,7 @@ PROC REPORT DATA=afinal23.Demo23_d (obs=1000) NOWD HEADLINE HEADSKIP SPACING=1 S
 /*   COLUMN ( isr i_f_cod event_dt mfr_dt fda_dt rept_cod age age_cod d_age d_agegrp gndr_cod wt wt_cod d_wt */
 /*               rept_dt occp_cod death_dt COUNTRY);*/
 
-   Title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2006Q1" j=r 'Page ^{thispage} of ^{lastpage}';
+   Title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
    TITLE2 j=right font='Times New Roman' height=10pt c=black "&sysdate9";
    TITLE3 j=center font='Times New Roman' height=13pt c=black bold "ADVERSE EVENT REPORTING SYSTEM (AERS)";
    TITLE4 j=center font='Times New Roman' height=12pt c=black bold "Demographic Listings";
@@ -90,7 +90,7 @@ proc report data=afinal23.Drug23_d (obs=1000) nowd headline headskip spacing=1 s
 
 /*   column isr drug_seq role_cod drugname val_vbm route dose_vbm dechal rechal lot_num exp_dt nda_num der_drug;*/
 
-   title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2006Q1" j=r 'Page ^{thispage} of ^{lastpage}';
+   title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
    title2 j=right font='Times New Roman' height=10pt c=black "&sysdate9";
    title3 j=center font='Times New Roman' height=13pt c=black bold "ADVERSE EVENT REPORTING SYSTEM (AERS)";
    title4 j=center font='Times New Roman' height=12pt c=black bold "Drug Listings";
@@ -111,7 +111,7 @@ proc report data=afinal23.Reac23_d (obs=1000) nowd headline headskip spacing=1 s
     style={outputwidth=100%}
     style(header)={just=c};
 
-   title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2006Q1" j=r 'Page ^{thispage} of ^{lastpage}';
+   title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
    title2 j=right font='Times New Roman' height=10pt c=black "&sysdate9";
    title3 j=center font='Times New Roman' height=13pt c=black bold "ADVERSE EVENT REPORTING SYSTEM (AERS)";
    title4 j=center font='Times New Roman' height=12pt c=black bold "Reaction Listings";
@@ -132,7 +132,7 @@ proc report data=afinal23.Outc23_d (obs=1000) nowd headline headskip spacing=1 s
     style={outputwidth=100%}
     style(header)={just=c};
 
-   title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2006Q1" j=r 'Page ^{thispage} of ^{lastpage}';
+   title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
    title2 j=right font='Times New Roman' height=10pt c=black "&sysdate9";
    title3 j=center font='Times New Roman' height=13pt c=black bold "ADVERSE EVENT REPORTING SYSTEM (AERS)";
    title4 j=center font='Times New Roman' height=12pt c=black bold "Outcome Listings";
@@ -153,7 +153,7 @@ proc report data=afinal23.Rpsr23_d (obs=1000) nowd headline headskip spacing=1 s
     style={outputwidth=100%}
     style(header)={just=c};
 
-   title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2006Q1" j=r 'Page ^{thispage} of ^{lastpage}';
+   title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
    title2 j=right font='Times New Roman' height=10pt c=black "&sysdate9";
    title3 j=center font='Times New Roman' height=13pt c=black bold "ADVERSE EVENT REPORTING SYSTEM (AERS)";
    title4 j=center font='Times New Roman' height=12pt c=black bold "Report Source Listings";
@@ -174,7 +174,7 @@ proc report data=afinal23.Ther23_d (obs=1000) nowd headline headskip spacing=1 s
     style={outputwidth=100%}
     style(header)={just=c};
 
-   title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2006Q1" j=r 'Page ^{thispage} of ^{lastpage}';
+   title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
    title2 j=right font='Times New Roman' height=10pt c=black "&sysdate9";
    title3 j=center font='Times New Roman' height=13pt c=black bold "ADVERSE EVENT REPORTING SYSTEM (AERS)";
    title4 j=center font='Times New Roman' height=12pt c=black bold "Therapy Listings";
@@ -195,7 +195,7 @@ proc report data=afinal23.Indi23_d (obs=1000) nowd headline headskip spacing=1 s
     style={outputwidth=100%}
     style(header)={just=c};
 
-   title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2006Q1" j=r 'Page ^{thispage} of ^{lastpage}';
+   title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
    title2 j=right font='Times New Roman' height=10pt c=black "&sysdate9";
    title3 j=center font='Times New Roman' height=13pt c=black bold "ADVERSE EVENT REPORTING SYSTEM (AERS)";
    title4 j=center font='Times New Roman' height=12pt c=black bold "Indication Listings";
