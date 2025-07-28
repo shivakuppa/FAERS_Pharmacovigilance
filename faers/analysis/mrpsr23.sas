@@ -80,3 +80,7 @@ DATA rpsr_final;
 
     DROP N1 N2 N3 N4;
 RUN;
+
+DATA AFINAL23.rpsr_table;
+    SET work.rpsr_final;
+RUN;

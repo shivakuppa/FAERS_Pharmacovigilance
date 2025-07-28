@@ -37,3 +37,8 @@ DATA INDI_final;
 
     DROP N1 N2 N3 N4;
 RUN;
+
+
+DATA AFINAL23.indi_table;
+    SET WORK.INDI_final;
+RUN;

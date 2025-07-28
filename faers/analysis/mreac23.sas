@@ -37,3 +37,7 @@ DATA reac_final;
 
     DROP N1 N2 N3 N4;
 RUN;
+
+DATA AFINAL23.reac_table;
+    SET work.reac_final;
+RUN;

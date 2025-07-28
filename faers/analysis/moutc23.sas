@@ -76,3 +76,7 @@ DATA OUTC_final;
 
     DROP N1 N2 N3 N4;
 RUN;
+
+DATA AFINAL23.outc_table;
+    SET work.outc_final;
+RUN;

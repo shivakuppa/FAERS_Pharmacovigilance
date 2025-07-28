@@ -15,6 +15,71 @@ DATE:                   NAME:                       REASON FOR MODIFICATION:
 
 /*OPTIONS VALIDVARNAME=ANY;*/
 
+PROC FORMAT;
+	value $i_f_cod
+		"I" = "Initial"
+		"F" = "Follow-up"
+	;
+RUN;
+
+PROC FORMAT;
+	value $rept_cod
+		"EXP" = "Expedited"
+		"PER" = "Periodic"
+		"DIR" = "Direct"
+		"5DAY" = "5 Day"
+		"30DAY" = "30 Day"
+	;
+RUN;
+
+PROC FORMAT;
+	value $age_cod
+		"DEC" = "Decade"
+		"YR" = "Year"
+		"MON" = "Month"
+		"WK" = "Week"
+		"DY" = "Day"
+		"HR" = "Hour"
+	;
+RUN;
+
+PROC FORMAT;
+	value $age_grp
+		"N" = "Neonate"
+		"I" = "Infant"
+		"C" = "Child"
+		"T" = "Adolescent"
+		"A" = "Adult"
+		"E" = "Elderly"
+	;
+RUN;
+
+PROC FORMAT;
+	value $sex
+		"UNK" = "Unknown"
+		"M" = "Male"
+		"F" = "Female"
+	;
+RUN;
+
+PROC FORMAT;
+	value $wt_cod
+		"KGS" = "Kilograms"
+		"LBS" = "Pounds"
+		"GMS" = "Grams"
+	;
+RUN;
+
+PROC FORMAT;
+	value $occp_cod
+		"MD" = "Physician"
+		"PH" = "Pharmacist"
+		"OT" = "Other Health Professional"
+		"LW" = "Lawyer"
+		"CN" = "Consumer"
+	;
+RUN;
+
 DATA Afinal23.demo23_d;
 	SET ARAW23.Demo23q4;
 
@@ -54,104 +119,252 @@ DATA Afinal23.demo23_d;
     ELSE IF D_AGE > 75 THEN D_AGEGRP = "GROUP4";
     ELSE D_AGEGRP = "MISSING";
 
-	/* LABELS */
-/*	LABEL PRIMARYID = "Unique number for identifying a FAERS report."*/
-/*		  CASEID = "Number for identifying a FAERS case."*/
-/*		  CASEVERSION = "Safety Report Version Number."*/
-/*		  I_F_CODE = "Code for initial or follow-up status of report, as reported by manufacturer. CODE MEANING_TEXT I Initial F Follow-up"*/
-/*		  EVENT_DT = "Date the adverse event occurred or began. (YYYYMMDD format)"*/
-/*		  MFR_DT = "Date manufacturer first received initial information."*/
-/*		  INIT_FDA_DT = "Date FDA received first version (Initial) of Case (YYYYMMDD format)"*/
-/*		  FDA_DT = "Date FDA received Case. In subsequent versions of a case, the latest manufacturer received date will be provided (YYYYMMDD format)."*/
-/*		  REPT_COD = "Code for the type of report submitted. EXP Expedited (15-Day) PER Periodic (Non-Expedited) DIR Direct 5DAY 5-Day 30DAY 30-Day"*/
-/*		  AUTH_NUM = "Regulatory Authority’s case report number, when available."*/
-/*		  MFR_NUM = "Manufacturer's unique report identifier."*/
-/*		  MFR_SNDR = "Coded name of manufacturer sending report; if not found, then verbatim name of organization sending report."*/
-/*		  LIT_REF = "Literature Reference information, when available; populated with last 500 characters if >500 characters are available."*/
-/*		  AGE = "Numeric value of patient's age at event."*/
-/*		  AGE_COD = "Unit abbreviation for patient's age (See table below) CODE MEANING_TEXT DEC DECADE YR YEAR MON MONTH WK WEEK DY DAY HR HOUR"*/
-/*		  AGE_GRP = "Patient Age Group code as follows, when available: CODE MEANING_TEXT N Neonate I Infant C Child T Adolescent A Adult E Elderly"*/
-/*		  SEX = "Code for patient's sex (See table below) CODE MEANING_TEXT ---- ------------ UNK Unknown M Male F Female"*/
-/*		  E_SUB = "Whether (Y/N) this report was submitted under the electronic submissions procedure for manufacturers."*/
-/*		  WT = "Numeric value of patient's weight."*/
-/*		  WT_COD = "Unit abbreviation for patient's weight (See table below) CODE MEANING_TEXT ---- ------------ KG Kilograms LBS Pounds GMS Grams"*/
-/*		  REPT_DT = "Date report was sent (YYYYMMDD format). If a complete date is not available, a partial date is provided."*/
-/*		  TO_MFR = "Whether (Y/N) voluntary reporter also notified manufacturer (blank for manufacturer reports)."*/
-/*		  OCCP_COD = "Abbreviation for the reporter's type of occupation. MD Physician PH Pharmacist OT Other health-professional LW Lawyer CN Consumer"*/
-/*		  REPORTER_COUNTRY = "The country of the reporter in the latest version of a case:"*/
-/*		  OCCR_COUNTRY = "The country where the event occurred."*/
-/*		  D_AGE = "Derived age in years"*/
-/*		  D_WT = "Derived weight in kilograms"*/
-/*	;*/
+/*	LABELS */
+	LABEL PRIMARYI = "Unique number for identifying a FAERS report."
+		  CASEID = "Number for identifying a FAERS case."
+		  CASEVERS = "Safety Report Version Number."
+		  I_F_CODE = "Code for initial or follow-up status of report, as reported by manufacturer."
+		  EVENT_DT = "Date the adverse event occurred or began. (YYYYMMDD format)"
+		  MFR_DT = "Date manufacturer first received initial information."
+		  INIT_FDA = "Date FDA received first version (Initial) of Case (YYYYMMDD format)"
+		  FDA_DT = "Date FDA received Case(YYYYMMDD format)."
+		  REPT_COD = "Code for the type of report submitted"
+		  AUTH_NUM = "Regulatory Authority’s case report number."
+		  MFR_NUM = "Manufacturer's unique report identifier."
+		  MFR_SNDR = "Coded name of manufacturer sending report."
+		  LIT_REF = "Literature Reference information."
+		  AGE = "Numeric value of patient's age at event."
+		  AGE_COD = "Unit abbreviation for patient's age"
+		  AGE_GRP = "Patient Age Group code"
+		  SEX = "Code for patient's sex"
+		  E_SUB = "Whether (Y/N) this report was submitted under the electronic submissions procedure for manufacturers."
+		  WT = "Numeric value of patient's weight."
+		  WT_COD = "Unit abbreviation for patient's weight."
+		  REPT_DT = "Date report was sent (YYYYMMDD format)."
+		  TO_MFR = "Whether (Y/N) voluntary reporter also notified manufacturer (blank for manufacturer reports)."
+		  OCCP_COD = "Reporter's type of occupation."
+		  REPORTER = "The country of the reporter in the latest version of a case."
+		  OCCR_COU = "The country where the event occurred."
+		  D_AGE = "Derived age in years."
+		  D_WT = "Derived weight in kilograms."
+		  D_AGEGRP = "Derived age group."
+	;
+
+	format I_F_CODE $i_f_cod.;
+	format REPT_COD $rept_cod.;
+	format AGE_COD $age_cod.;
+	format AGE_GRP $age_grp.;
+	format SEX $sex.;
+	format WT_COD $wt_cod.;
+	format OCCP_COD $occp_cod.;
+RUN;
+
+
+PROC FORMAT;
+    VALUE $role_cod
+        'PS' = 'Primary Suspect Drug'
+        'SS' = 'Secondary Suspect Drug'
+        'C'  = 'Concomitant'
+        'I'  = 'Interacting';
+RUN;
+
+PROC FORMAT;
+    VALUE val_vbm
+        1 = 'Validated trade name used'
+        2 = 'Verbatim name used';
+RUN;
+
+PROC FORMAT;
+    VALUE $drug_unit
+        'KG'     = 'Kilogram(s)'
+        'GM'     = 'Gram(s)'
+        'MG'     = 'Milligram(s)'
+        'UG'     = 'Microgram(s) (µg)'
+        'NG'     = 'Nanogram(s)'
+        'PG'     = 'Picogram(s)'
+        'MG/KG'  = 'Milligram(s)/Kilogram'
+        'UG/KG'  = 'Microgram(s)/Kilogram (µG/KG)'
+        'MG/M**2'= 'Milligram(s)/Sq. Meter'
+        'UG/M**2'= 'Microgram(s)/Sq. Meter (µG/M**2)'
+        'L'      = 'Litre(s)'
+        'ML'     = 'Millilitre(s)'
+        'UL'     = 'Microlitre(s) (µL)'
+        'BQ'     = 'Becquerel(s)'
+        'GBQ'    = 'Gigabecquerel(s)'
+        'MBQ'    = 'Megabecquerel(s)'
+        'KBQ'    = 'Kilobecquerel(s)'
+        'CI'     = 'Curie(s)'
+        'MCI'    = 'Millicurie(s)'
+        'UCI'    = 'Microcurie(s) (µCI)'
+        'NCI'    = 'Nanocurie(s)'
+        'MOL'    = 'Mole(s)'
+        'MMOL'   = 'Millimole(s)'
+        'UMOL'   = 'Micromole(s)'
+        'IU'     = 'International Unit(s)'
+        'KIU'    = 'International Unit*(1000s)'
+        'MIU'    = 'International Unit*(1,000,000s)'
+        'IU/KG'  = 'IU/Kilogram'
+        'MEQ'    = 'Milliequivalent(s)'
+        'PCT'    = 'Percent (%)'
+        'GTT'    = 'Drop(s)'
+        'DF'     = 'Dosage Form'
+    ;
+RUN;
+
+PROC FORMAT;
+    VALUE $chal
+        'Y' = 'Positive dechallenge'
+        'N' = 'Negative dechallenge'
+        'U' = 'Unknown'
+        'D' = 'Does not apply';
+RUN;
+
+PROC FORMAT;
+    VALUE $freq
+        '1X'  = 'Once or one time'
+        'BID' = 'Twice a day'
+        'BIW' = 'Twice a week'
+        'HS'  = 'At bedtime'
+        'PRN' = 'As needed'
+        'Q12H'= 'Every 12 hours'
+        'Q2H' = 'Every 2 hours'
+        'Q3H' = 'Every 3 hours'
+        'Q3W' = 'Every 3 weeks'
+        'Q4H' = 'Every 4 hours'
+        'Q5H' = 'Every 5 hours'
+        'Q6H' = 'Every 6 hours'
+        'Q8H' = 'Every 8 hours'
+        'QD'  = 'Daily'
+        'QH'  = 'Every hour'
+        'QID' = '4 times a day'
+        'QM'  = 'Monthly'
+        'QOD' = 'Every other day'
+        'QOW' = 'Every other week'
+        'QW'  = 'Every week'
+        'TID' = '3 times a day'
+        'TIW' = '3 times a week'
+        'UNK' = 'Unknown';
 RUN;
 
 DATA Afinal23.drug23_d;
 	SET ARAW23.Drug23q4;
 
-	/* LABELS */
-/*	LABEL PRIMARYID = "Unique number for identifying a FAERS report."*/
-/*		  CASEID = "Number for identifying a FAERS case."*/
-/*		  DRUG_SEQ = "Unique number for identifying a drug for a Case."*/
-/*		  ROLE_COD = "Code for drug's reported role in event(See table below)"*/
-/*		  DRUGNAME = "Name of medicinal product."*/
-/*		  PROD_AI = "Product Active Ingredient, when available."*/
-/*		  VAL_VBM = "Code for source of DRUGNAME"*/
-/*		  ROUTE = "The route of drug administration"*/
-/*		  DOSE_VBM = "Verbatim text for dose, frequency, and route, exactly as entered on report."*/
-/*		  CUM_DOSE_CHR = "Cumulative dose to first reaction"*/
-/*		  CUM_DOSE_UNIT = "Cumulative dose to first reaction unit CODE Meaning"*/
-/*		  DECHAL = "Dechallenge code, indicating if reaction abated when drug therapy was stopped"*/
-/*		  RECHAL = "Rechallenge code, indicating if reaction recurred when drug therapy was restarted"*/
-/*		  LOT_NUM = "Expiration date of the drug. (YYYYMMDD format)"*/
-/*		  EXP_DT = "Lot number of the drug (as reported)."*/
-/*		  NDA_NUM = "NDA number (numeric only)"*/
-/*		  DOSE_AMT = "Amount of drug reported"*/
-/*		  DOSE_UNI = "Unit of drug dose"*/
-/*		  DOSE_FORM = "Form of dose reported"*/
-/*		  DOSE_FREQ = "Code for Frequency"*/
-/*	;*/
+/*	LABELS */
+	LABEL PRIMARYI = "Unique number for identifying a FAERS report."
+		  CASEID = "Number for identifying a FAERS case."
+		  DRUG_SEQ = "Unique number for identifying a drug for a Case."
+		  ROLE_COD = "Code for drug's reported role in event."
+		  DRUGNAME = "Name of medicinal product."
+		  PROD_AI = "Product Active Ingredient."
+		  VAL_VBM = "Code for source of DRUGNAME."
+		  ROUTE = "The route of drug administration"
+		  DOSE_VBM = "Verbatim text for dose, frequency, and route, exactly as entered on report."
+		  CUM_DOSE = "Cumulative dose to first reaction"
+		  VAR11 = "Cumulative dose to first reaction unit CODE Meaning"
+		  DECHAL = "Dechallenge code, indicating if reaction abated when drug therapy was stopped"
+		  RECHAL = "Rechallenge code, indicating if reaction recurred when drug therapy was restarted"
+		  LOT_NUM = "Expiration date of the drug. (YYYYMMDD format)"
+		  EXP_DT = "Lot number of the drug (as reported)."
+		  NDA_NUM = "NDA number."
+		  DOSE_AMT = "Amount of drug reported."
+		  DOSE_UNI = "Unit of drug dose."
+		  DOSE_FOR = "Form of dose reported."
+		  DOSE_FRE = "Code for Frequency."
+	;
+
+	format ROLE_COD $role_cod.;
+	format VAL_VBM val_vbm.;
+	format VAR11 $drug_unit.;
+	format DOSE_UNI $drug_unit.;
+	format DECHAL $chal.;
+	format RECHAL $chal.;
+	format DOSE_FRE $freq.;
 RUN;
+
 
 DATA Afinal23.indi23_d;
 	SET ARAW23.Indi23q4;
 
-	/* LABELS */
-/*	LABEL PRIMARYID = "Unique number for identifying a FAERS report."*/
-/*		  CASEID = "Number for identifying a FAERS case."*/
-/*		  INDI_DRUG_SEQ = "Drug sequence number for identifying a drug for a Case."*/
-/*		  INDI_PT = "Preferred Term-level medical terminology describing the Indication for use."*/
-/*	;*/
+/*	LABELS */
+	LABEL PRIMARYI = "Unique number for identifying a FAERS report."
+		  CASEID = "Number for identifying a FAERS case."
+		  INDI_DRU = "Drug sequence number for identifying a drug for a Case."
+		  INDI_PT = "Preferred Term-level medical terminology describing the Indication for use."
+	;
+RUN;
+
+
+PROC FORMAT;
+    VALUE $outc_cod
+        'DE' = 'Death'
+        'LT' = 'Life-Threatening'
+        'HO' = 'Hospitalization - Initial or Prolonged'
+        'DS' = 'Disability'
+        'CA' = 'Congenital Anomaly'
+        'RI' = 'Required Intervention to Prevent Permanent Impairment/Damage'
+        'OT' = 'Other Serious (Important Medical Event)';
 RUN;
 
 DATA Afinal23.outc23_d;
 	SET ARAW23.Outc23q4;
 
-	/* LABELS */
-/*	LABEL PRIMARYID = "Unique number for identifying a FAERS report."*/
-/*		  CASEID = "Number for identifying a FAERS case."*/
-/*		  OUTC_COD = "Code for a patient outcome."*/
-/*	;*/
+/*	LABELS */
+	LABEL PRIMARYI = "Unique number for identifying a FAERS report."
+		  CASEID = "Number for identifying a FAERS case."
+		  OUTC_COD = "Code for a patient outcome."
+	;
+
+	format OUTC_COD $outc_cod.;
 RUN;
+
 
 DATA Afinal23.reac23_d;
 	SET ARAW23.Reac23q4;
 
-	/* LABELS */
-/*	LABEL PRIMARYID = "Unique number for identifying a FAERS report."*/
-/*		  CASEID = "Number for identifying a FAERS case."*/
-/*		  PT = "Preferred term to describe the event"*/
-/*		  DRUG_REC_ACT = "Drug Recur Action data."*/
-/*	;*/
+/*	LABELS */
+	LABEL PRIMARYI = "Unique number for identifying a FAERS report."
+		  CASEID = "Number for identifying a FAERS case."
+		  PT = "Preferred term to describe the event"
+		  DRUG_REC = "Drug Recur Action data."
+	;
+RUN;
+
+
+PROC FORMAT;
+    VALUE $rpsr_cod
+        'FGN' = 'Foreign'
+        'SDY' = 'Study'
+        'LIT' = 'Literature'
+        'CSM' = 'Consumer'
+        'HP'  = 'Health Professional'
+        'UF'  = 'User Facility'
+        'CR'  = 'Company Representative'
+        'DT'  = 'Distributor'
+        'OTH' = 'Other';
 RUN;
 
 DATA Afinal23.rpsr23_d;
 	SET ARAW23.Rpsr23q4;
 
-	/* LABELS */
-/*	LABEL PRIMARYID = "Unique number for identifying a FAERS report."*/
-/*		  CASEID = "Number for identifying a FAERS case."*/
-/*		  RPSR_COD = "Code for the source of the report."*/
-/*	;*/
+/*	LABELS */
+	LABEL PRIMARYI = "Unique number for identifying a FAERS report."
+		  CASEID = "Number for identifying a FAERS case."
+		  RPSR_COD = "Code for the source of the report."
+	;
+
+	format RPSR_COD $rpsr_cod.
+RUN;
+
+
+PROC FORMAT;
+    VALUE $dur_cod
+        'YR'  = 'Years'
+        'MON' = 'Months'
+        'WK'  = 'Weeks'
+        'DAY' = 'Days'
+        'HR'  = 'Hours'
+        'MIN' = 'Minutes'
+        'SEC' = 'Seconds';
 RUN;
 
 DATA Afinal23.ther23_d(drop=TEMP_DUR);
@@ -212,14 +425,16 @@ DATA Afinal23.ther23_d(drop=TEMP_DUR);
     ELSE IF DUR_COD = "SECONDS" THEN DER_DUR = FLOOR(DUR / 31536000);
     ELSE IF DUR_COD = "YEARS"   THEN DER_DUR = FLOOR(DUR);
 
-	/* LABELS */
-/*	LABEL PRIMARYID = "Unique number for identifying a FAERS report."*/
-/*		  CASEID = "Number for identifying a FAERS case."*/
-/*		  DSG_DRUG_SEQ = "Drug sequence number for identifying a drug for a Case."*/
-/*		  START_DT = "Date the therapy was started (or re-started) for this drug"*/
-/*		  END_DT = "A date therapy was stopped for this drug."*/
-/*		  DUR = "Numeric value of the duration (length) of therapy"*/
-/*		  DUR_COD = "Units for therapy duration: YR Years MON Months WK Weeks DAY Days HR Hours MIN Minutes SEC Seconds"*/
-/*	;*/
-
+/*	LABELS */
+	LABEL PRIMARYI = "Unique number for identifying a FAERS report."
+		  CASEID = "Number for identifying a FAERS case."
+		  DSG_DRUG = "Drug sequence number for identifying a drug for a Case."
+		  START_DT = "Date the therapy was started (or re-started) for this drug"
+		  END_DT = "A date therapy was stopped for this drug."
+		  DUR = "Numeric value of the duration (length) of therapy."
+		  DUR_COD = "Units for therapy duration."
+		  DER_DUR = "Derived duration."
+	;
+	
+	format DUR_COD $dur_cod.
 RUN;
