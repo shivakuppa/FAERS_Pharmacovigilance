@@ -64,8 +64,8 @@ ods proclabel = "	 2.1 Demographics Listing";
 title "Demographics Listing";
 PROC REPORT DATA=afinal23.Demo23_d (obs=1000) NOWD HEADLINE HEADSKIP SPACING=1 SPLIT="*" MISSING 
            STYLE = {OUTPUTWIDTH=100%}  STYLE (HEADER) = {JUST=C};
-/*   COLUMN ( isr i_f_cod event_dt mfr_dt fda_dt rept_cod age age_cod d_age d_agegrp gndr_cod wt wt_cod d_wt */
-/*               rept_dt occp_cod death_dt COUNTRY);*/
+   COLUMN ( primaryi i_f_cod event_dt mfr_dt fda_dt rept_cod age age_cod d_age d_agegrp sex wt wt_cod d_wt 
+               rept_dt occp_cod death_dt occr_cou);
 
    Title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
    TITLE2 j=right font='Times New Roman' height=10pt c=black "&sysdate9";
@@ -88,7 +88,7 @@ proc report data=afinal23.Drug23_d (obs=1000) nowd headline headskip spacing=1 s
     style={outputwidth=100%}
     style(header)={just=c};  /* Match your Demographic Listings */
 
-/*   column isr drug_seq role_cod drugname val_vbm route dose_vbm dechal rechal lot_num exp_dt nda_num der_drug;*/
+   column primaryi drug_seq role_cod drugname val_vbm route dose_vbm dechal rechal lot_num exp_dt nda_num;
 
    title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
    title2 j=right font='Times New Roman' height=10pt c=black "&sysdate9";
@@ -110,6 +110,8 @@ title "Reactions Listing";
 proc report data=afinal23.Reac23_d (obs=1000) nowd headline headskip spacing=1 split='*' missing
     style={outputwidth=100%}
     style(header)={just=c};
+	
+	column primaryi pt;
 
    title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
    title2 j=right font='Times New Roman' height=10pt c=black "&sysdate9";
@@ -131,6 +133,8 @@ title "Outcomes Listing";
 proc report data=afinal23.Outc23_d (obs=1000) nowd headline headskip spacing=1 split='*' missing
     style={outputwidth=100%}
     style(header)={just=c};
+	
+	column primaryi outc_cod;
 
    title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
    title2 j=right font='Times New Roman' height=10pt c=black "&sysdate9";
@@ -152,6 +156,8 @@ title "Report Sources Listing";
 proc report data=afinal23.Rpsr23_d (obs=1000) nowd headline headskip spacing=1 split='*' missing
     style={outputwidth=100%}
     style(header)={just=c};
+	
+	column primaryi rpsr_cod;
 
    title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
    title2 j=right font='Times New Roman' height=10pt c=black "&sysdate9";
@@ -174,6 +180,8 @@ proc report data=afinal23.Ther23_d (obs=1000) nowd headline headskip spacing=1 s
     style={outputwidth=100%}
     style(header)={just=c};
 
+	column primaryi dsg_drug start_dt end_dt der_dur;
+
    title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
    title2 j=right font='Times New Roman' height=10pt c=black "&sysdate9";
    title3 j=center font='Times New Roman' height=13pt c=black bold "ADVERSE EVENT REPORTING SYSTEM (AERS)";
@@ -195,6 +203,8 @@ proc report data=afinal23.Indi23_d (obs=1000) nowd headline headskip spacing=1 s
     style={outputwidth=100%}
     style(header)={just=c};
 
+	column primaryi indi_dru indi_pt;
+
    title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
    title2 j=right font='Times New Roman' height=10pt c=black "&sysdate9";
    title3 j=center font='Times New Roman' height=13pt c=black bold "ADVERSE EVENT REPORTING SYSTEM (AERS)";
@@ -208,6 +218,9 @@ ods proclabel = "	 2.7 Indications Listing";
 title "Indications Listing";
 
 /*==================== Parent Node: 3. Summary Tables (TOC Entry) ====================================*/
+
+%LET TOTAL = %EVAL(&AGEGRP1 + &AGEGRP2 + &AGEGRP3 + &AGEGRP4);
+
 ods pdf startpage=now;
 
 ods proclabel = "3. Summary Tables";
@@ -239,7 +252,7 @@ PROC REPORT DATA=AFINAL23.Demo_table NOWD HEADLINE HEADSKIP SPACING=1 SPLIT="*" 
 	DEFINE GROUP2/DISPLAY "Group2 (26-50) *" "(N=%TRIM(&AGEGRP2))"; 
 	DEFINE GROUP3/DISPLAY "Group3 (51-75) *" "(N=%TRIM(&AGEGRP3))"; 
 	DEFINE GROUP4/DISPLAY "Group4 (75+) *" "(N=%TRIM(&AGEGRP4))"; 
-	DEFINE TOTAL/DISPLAY "Total *" "(N=%TRIM(&AGEGRP5))";
+	DEFINE TOTAL/DISPLAY "Total *" "(N=%TRIM(&TOTAL))";
 
     Title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
 
@@ -265,7 +278,7 @@ PROC REPORT DATA=AFINAL23.Drug_table NOWD HEADLINE HEADSKIP SPACING=1 SPLIT="*" 
 	DEFINE GROUP2/DISPLAY "Group2 (26-50) *" "(N=%TRIM(&AGEGRP2))"; 
 	DEFINE GROUP3/DISPLAY "Group3 (51-75) *" "(N=%TRIM(&AGEGRP3))"; 
 	DEFINE GROUP4/DISPLAY "Group4 (75+) *" "(N=%TRIM(&AGEGRP4))";  
-	DEFINE TOTAL/DISPLAY "Total *" "(N=%TRIM(&AGEGRP5))"; 
+	DEFINE TOTAL/DISPLAY "Total *" "(N=%TRIM(&TOTAL))"; 
 
     Title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
 
@@ -290,7 +303,7 @@ PROC REPORT DATA=AFINAL23.Reac_table NOWD HEADLINE HEADSKIP SPACING=1 SPLIT="*" 
 	DEFINE GROUP2/DISPLAY "Group2 (26-50) *" "(N=%TRIM(&AGEGRP2))"; 
 	DEFINE GROUP3/DISPLAY "Group3 (51-75) *" "(N=%TRIM(&AGEGRP3))"; 
 	DEFINE GROUP4/DISPLAY "Group4 (75+) *" "(N=%TRIM(&AGEGRP4))";  
-	DEFINE TOTAL/DISPLAY "Total *" "(N=%TRIM(&AGEGRP5))"; 
+	DEFINE TOTAL/DISPLAY "Total *" "(N=%TRIM(&TOTAL))"; 
 
     Title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
 
@@ -315,7 +328,7 @@ PROC REPORT DATA=AFINAL23.Outc_table NOWD HEADLINE HEADSKIP SPACING=1 SPLIT="*" 
 	DEFINE GROUP2/DISPLAY "Group2 (26-50) *" "(N=%TRIM(&AGEGRP2))"; 
 	DEFINE GROUP3/DISPLAY "Group3 (51-75) *" "(N=%TRIM(&AGEGRP3))"; 
 	DEFINE GROUP4/DISPLAY "Group4 (75+) *" "(N=%TRIM(&AGEGRP4))";  
-	DEFINE TOTAL/DISPLAY "Total *" "(N=%TRIM(&AGEGRP5))"; 
+	DEFINE TOTAL/DISPLAY "Total *" "(N=%TRIM(&TOTAL))"; 
 
     Title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
 
@@ -340,7 +353,7 @@ PROC REPORT DATA=AFINAL23.Rpsr_table NOWD HEADLINE HEADSKIP SPACING=1 SPLIT="*" 
 	DEFINE GROUP2/DISPLAY "Group2 (26-50) *" "(N=%TRIM(&AGEGRP2))"; 
 	DEFINE GROUP3/DISPLAY "Group3 (51-75) *" "(N=%TRIM(&AGEGRP3))"; 
 	DEFINE GROUP4/DISPLAY "Group4 (75+) *" "(N=%TRIM(&AGEGRP4))";  
-	DEFINE TOTAL/DISPLAY "Total *" "(N=%TRIM(&AGEGRP5))"; 
+	DEFINE TOTAL/DISPLAY "Total *" "(N=%TRIM(&TOTAL))"; 
 
     Title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
 
@@ -365,7 +378,7 @@ PROC REPORT DATA=AFINAL23.Ther_table NOWD HEADLINE HEADSKIP SPACING=1 SPLIT="*" 
 	DEFINE GROUP2/DISPLAY "Group2 (26-50) *" "(N=%TRIM(&AGEGRP2))"; 
 	DEFINE GROUP3/DISPLAY "Group3 (51-75) *" "(N=%TRIM(&AGEGRP3))"; 
 	DEFINE GROUP4/DISPLAY "Group4 (75+) *" "(N=%TRIM(&AGEGRP4))";  
-	DEFINE TOTAL/DISPLAY "Total *" "(N=%TRIM(&AGEGRP5))"; 
+	DEFINE TOTAL/DISPLAY "Total *" "(N=%TRIM(&TOTAL))"; 
 
     Title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
 
@@ -390,7 +403,7 @@ PROC REPORT DATA=AFINAL23.Indi_table NOWD HEADLINE HEADSKIP SPACING=1 SPLIT="*" 
 	DEFINE GROUP2/DISPLAY "Group2 (26-50) *" "(N=%TRIM(&AGEGRP2))"; 
 	DEFINE GROUP3/DISPLAY "Group3 (51-75) *" "(N=%TRIM(&AGEGRP3))"; 
 	DEFINE GROUP4/DISPLAY "Group4 (75+) *" "(N=%TRIM(&AGEGRP4))";  
-	DEFINE TOTAL/DISPLAY "Total *" "(N=%TRIM(&AGEGRP5))"; 
+	DEFINE TOTAL/DISPLAY "Total *" "(N=%TRIM(&TOTAL))"; 
 
     Title1 font="Times New Roman" c=black bold height=10pt j=left "Project: AERS 2023Q4" j=r 'Page ^{thispage} of ^{lastpage}';
 

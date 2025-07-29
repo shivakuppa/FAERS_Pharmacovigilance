@@ -16,6 +16,13 @@ DATE:                   NAME:                       REASON FOR MODIFICATION:
 /*OPTIONS VALIDVARNAME=ANY;*/
 
 PROC FORMAT;
+	value $yesno
+		"Y" = "Yes"
+		"N" = "No"
+	;
+RUN;
+
+PROC FORMAT;
 	value $i_f_cod
 		"I" = "Initial"
 		"F" = "Follow-up"
@@ -64,7 +71,7 @@ RUN;
 
 PROC FORMAT;
 	value $wt_cod
-		"KGS" = "Kilograms"
+		"KG" = "Kilograms"
 		"LBS" = "Pounds"
 		"GMS" = "Grams"
 	;
@@ -77,6 +84,7 @@ PROC FORMAT;
 		"OT" = "Other Health Professional"
 		"LW" = "Lawyer"
 		"CN" = "Consumer"
+		"HP" = "Health Professional"
 	;
 RUN;
 
@@ -117,7 +125,7 @@ DATA Afinal23.demo23_d;
     ELSE IF D_AGE >= 26 AND D_AGE <= 50 THEN D_AGEGRP = "GROUP2";
     ELSE IF D_AGE >= 51 AND D_AGE <= 75 THEN D_AGEGRP = "GROUP3";
     ELSE IF D_AGE > 75 THEN D_AGEGRP = "GROUP4";
-    ELSE D_AGEGRP = "MISSING";
+    ELSE D_AGEGRP = "MISSIN";
 
 /*	LABELS */
 	LABEL PRIMARYI = "Unique number for identifying a FAERS report."
@@ -157,6 +165,8 @@ DATA Afinal23.demo23_d;
 	format SEX $sex.;
 	format WT_COD $wt_cod.;
 	format OCCP_COD $occp_cod.;
+	format TO_MFR $yesno.;
+	format E_SUB $yesno.;
 RUN;
 
 
